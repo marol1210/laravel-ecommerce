@@ -27,14 +27,20 @@
             <div>
                 <a-layout id="components-layout-demo-top" class="layout">
                     @include('partials.nav')
-
+                    
+<a-layout>
+<a-layout-sider style="background-color:#fff;min-width:50px;max-width:150px;">
+    <a-row>
+          @include('partials.nav-left')
+    </a-row>
+</a-layout-sider>
                     <a-layout-content style="padding: 0 50px">
                     @include('partials.breadcrumb')
                     <div :style="{ background: '#fff', padding: '24px', minHeight: '280px' }">
                         @yield('content')
                     </div>
                     </a-layout-content>
-                    
+</a-layout>
                     @include('partials.footer')
                 </a-layout>
             </div>

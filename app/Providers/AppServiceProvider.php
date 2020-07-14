@@ -10,6 +10,7 @@ use AvoRed\Framework\Support\Facades\Menu;
 use Barryvdh\Debugbar\Facade;
 use Barryvdh\Debugbar\ServiceProvider as DebugbarServiceProvider;
 use Illuminate\Foundation\AliasLoader;
+use AvoRed\Framework\Database\Contracts\CategoryFilterModelInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -43,9 +44,13 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(CategoryFilterModelInterface $categoryFilterRepository)
     {
-        View::composer('partials.nav', NavComposer::class);
+        //customer composer by marol
+        $this->app->setLocale('cn');
+        //end customer composer
+        
+        View::composer(['partials.nav','partials.nav-left'], NavComposer::class);
         Menu::make('login', function (MenuItem $menu) {
             $menu->label('Login')
                 ->type(MenuItem::FRONT)
