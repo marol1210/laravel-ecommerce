@@ -36,11 +36,13 @@ class Module extends ServiceProvider
      */
     protected function registerResources()
     {
+        /*
         $this->publishes([
             __DIR__.'/../resources/lang' => resource_path("lang/vendor/avored"),
         ], 'localization');
+        */
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'localization');
-        //$this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-        //$this->loadViewsFrom(__DIR__ . '/../resources/views', 'avored-localization');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'localization');
     }
 }
