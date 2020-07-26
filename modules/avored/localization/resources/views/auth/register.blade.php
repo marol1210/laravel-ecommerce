@@ -17,25 +17,34 @@
 <marol-register inline-template>
     <div>
         <a-row type="flex" align="middle">
-            <a-col :span="12">
+            <a-col :span="14">
                 <a-row type="flex" align="middle" class="h-100 text-center">
-                <a-col :span="24">
-                    
-                </a-col>
+                    <a-col :span="24">
+                        
+                    </a-col>
                 </a-row>
             </a-col>
-            <a-col :span="12">
+            <a-col :span="10">
                 <a-row type="flex">
                 <a-col :span="20" :offset="2">
                     <a-card title="{{__('Account Management')}}">
-                        <a-form :label-col="{span:6}" :wrapper-col="{span:12}" @submit.prevent="show" :form="form">
+                        <a-form 
+                        	:label-col="{span:6}" 
+                        	:wrapper-col="{span:12}"
+                            :form="form"
+                            method="post"
+                            action="{{ route('register') }}"
+                            @submit="handleSubmit">
+                            @csrf()
     			    		<a-form-item label="昵称" has-feedback>
     			    			<a-input 
-    			    				v-decorator="['nikename',{rules:[{required:true,message:'请填写昵称'}]}]" 
+    			    				name="name" 
+    			    				v-decorator="['name',{rules:[{required:true,message:'请填写昵称'}]}]" 
     			    				placeholder="昵称"/>
     			    		</a-form-item>
     			    		<a-form-item label="邮箱">
     			    			<a-input 
+    			    				name="email"
     			    				v-decorator="['email',{rules:[{type:'email',message:'无效的邮箱地址'},{required:true,message:'请输入邮箱'}]}]"
     			    				placeholder="邮箱name@example.com"
     			    				type="email"
@@ -47,6 +56,7 @@
     			    		</a-form-item>
     						<a-form-item  label="密码" has-feedback>
     							<a-input type="password" 
+    								name="password"
     								v-decorator="['password',{rules:[{required:true,message:'密码不能为空'},{validator:changePassword}]}]"
     								placeholder="密码"
     								>
@@ -55,6 +65,7 @@
     						</a-form-item>
     						<a-form-item  label="确认密码" has-feedback>
     							<a-input type="password" 
+    								name="password_confirmation"
     								v-decorator="
     								[
     									'confirm_password',
@@ -70,19 +81,29 @@
     							<a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)"></a-icon>
     							</a-input>
     						</a-form-item>
-    						<a-form-item :wrapper-col="{offset:5,span:19}">
-    						      <a-button type="primary" html-type="submit">
-    						        确定
-    						      </a-button>
-    						</a-form-item>
+                            <a-form-item  :wrapper-col="{offset:6,span:18}">
+                                <a-button
+                                    type="primary"
+                                    :loading="loadingSubmitBtn"
+                                    html-type="submit"
+                                >
+                               		     确定
+                                </a-button>
+                            </a-form-item>
     			    	</a-form>
                     </a-card>
                 </a-col>
                 </a-row>
             </a-col>
-        
-            
         </a-row>
     </div>
 </marol-register>
 @endsection
+
+<style>
+.ant-card {
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+</style>

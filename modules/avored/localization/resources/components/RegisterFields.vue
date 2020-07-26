@@ -1,10 +1,21 @@
 <script>
 export default {
-  beforeCreate:function(){
- 	this.form = this.$form.createForm(this);
-    //this.form.getFieldDecorator('keys', { initialValue: [], preserve: true });
+  data () {
+    return {
+      form: this.$form.createForm(this),
+      loadingSubmitBtn: false
+    };
   },
   methods:{
+      handleSubmit (e) {
+	      this.loadingSubmitBtn = true;
+	      this.form.validateFields((err, values) => {
+	        if (err) {
+	          this.loadingSubmitBtn = false;
+	          e.preventDefault();
+	        }
+	      });
+	    },
 	 add() {
       const { form } = this;
       // can use data-binding to get

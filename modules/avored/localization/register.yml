@@ -2,4 +2,4 @@ name: localization
 identifier: localization
 status: active
 description: Localization Module
-namespace: Avored\Localization\
+namespace: AvoRed\Localization\

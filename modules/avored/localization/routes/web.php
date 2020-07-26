@@ -1,4 +1,4 @@
 <?php
-Route::get('/register-new',function(){
-    return view('localization::auth.register');    
-});
+
+Route::get('/register-cn',[\AvoRed\Localization\Http\Controllers\RegisterController::class,'showRegistrationForm'])->name('marol.register.cn');
+

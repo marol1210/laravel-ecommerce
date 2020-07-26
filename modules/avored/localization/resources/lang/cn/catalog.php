@@ -1,18 +1,18 @@
 <?php
 
 return [
-
+    
     /*
-    |--------------------------------------------------------------------------
-    | AvoRed E commerce Package Catalog Language Representation
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are the default lines which match reasons
-    | that are given by the password broker for a password update attempt
-    | has failed, such as for an invalid token or invalid new password.
-    |
-    */
-
+     |--------------------------------------------------------------------------
+     | AvoRed E commerce Package Catalog Language Representation
+     |--------------------------------------------------------------------------
+     |
+     | The following language lines are the default lines which match reasons
+     | that are given by the password broker for a password update attempt
+     | has failed, such as for an invalid token or invalid new password.
+     |
+     */
+    
     'category' => [
         'title' => 'Category',
         'name' => 'Name',
@@ -32,7 +32,7 @@ return [
     'product' => [
         'variation_image' => 'Variation Image',
         'variation_image_upload' => 'Upload Image',
-        'available_in_stock' => ':qty available in stock',
+        'available_in_stock' => ':qty 库存',
         'not_available_in_stock' => 'Sorry this product is out of stock.',
         'variation_title' => 'Product Variations',
         'variation_create_msg' => 'Product Variation Created Successfully!',
@@ -115,10 +115,10 @@ return [
             'title' => 'Attribute Edit',
         ],
     ],
-
+    
     'cart_success_notification' => 'Product added to cart successfully.',
     'promotion_code_success_notification' => 'Promotion code applied to cart successfully.',
     'promotion_code_errot_notification' => 'There is an error. Please check your code or contact administrator.',
     'cart_variable_product_error_notification' => 'There is an error while adding product to cart.',
-
+    
 ];
