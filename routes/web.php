@@ -11,9 +11,11 @@
 |
 */
 
-Auth::routes();
+Auth::routes(['verify'=>true]);
+
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('category/{category}', 'CategoryController@show')->name('category.show');
 Route::get('product/{product}', 'ProductController@show')->name('product.show');

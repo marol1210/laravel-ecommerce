@@ -11,3 +11,13 @@ $product->main_image_url = empty($product->mainImage) ? 'https://placehold.it/25
     product-page-url="{{ route('product.show', $product->slug) }}"
     currency="{{ session()->get('default_currency')->symbol }}">
 </product-card>
+
+@push('styles')
+<style>
+.product-card .main-image
+{
+    object-fit: contain !important;
+    object-fit: contain;
+}
+</style>
+@endpush

@@ -145,10 +145,12 @@ class CreateDemodata extends Migration
         ];
         $replicate_product_xiaomi = $product->replicate()->fill($xiaomi);
         $replicate_product_xiaomi->save();
+        
+        $replicate_product_xiaomi->categories()->sync([$category_mobile->id]);
         ProductImage::create(['path' => 'uploads/catalog/'. $replicate_product_xiaomi->id .'/x-10.jpg', 'product_id' => $replicate_product_xiaomi->id, 'is_main_image' => 1]);
         $replicate_product_xiaomi->productPropertyIntegerValues()->create(['property_id' => $brandProperty->id, 'value' => $property_brand_xiaomi->id]);
-        $replicate_product_xiaomi->properties()->sync([$brandProperty->id, $brandProperty->id]);
-       
+        $replicate_product_xiaomi->properties()->sync([$brandProperty->id]);
+        
         
         $jdf = [
             'name'=>'京东方 27” 4K',
@@ -162,15 +164,54 @@ class CreateDemodata extends Migration
         ];
         $replicate_product_jdf = $product->replicate()->fill($jdf);
         $replicate_product_jdf->save();
+        $replicate_product_jdf->categories()->sync([$category_display->id]);
         ProductImage::create(['path' => 'uploads/catalog/'. $replicate_product_jdf->id .'/jdf.jpg', 'product_id' => $replicate_product_jdf->id, 'is_main_image' => 1]);
-        $replicate_product_xiaomi->productPropertyIntegerValues()->create(['property_id' => $displayBrandProperty->id, 'value' => $property_brand_jdf->id]);
-        $replicate_product_xiaomi->properties()->sync([$brandProperty->id, $displayBrandProperty->id]);
+        $replicate_product_jdf->productPropertyIntegerValues()->create(['property_id' => $displayBrandProperty->id, 'value' => $property_brand_jdf->id]);
+        $replicate_product_jdf->properties()->sync([$displayBrandProperty->id]);
         
         
+        $huawei_pc = [
+            'name'=>'huawei-pc',
+            'price'=>rand(500, 1000) / 10,
+            'qty' => rand(50, 100),
+            'cost_price' => $price - (rand(50, 100) / 10),
+            'description' => $faker->text,
+            'slug' => 'laptop-huawei-pc',
+            'sku' => 'huawei-pc',
+            'barcode' => $faker->countryCode
+        ];
+        $replicate_product_huawei_pc = $product->replicate()->fill($xiaomi);
+        $replicate_product_huawei_pc->save();
         
+        $replicate_product_huawei_pc->categories()->sync([$category_laptop->id]);
+        ProductImage::create(['path' => 'uploads/catalog/'. $replicate_product_huawei_pc->id .'/huawei-pc1.png', 'product_id' => $replicate_product_huawei_pc->id, 'is_main_image' => 1]);
+        $replicate_product_huawei_pc->productPropertyIntegerValues()->create(['property_id' => $brandProperty->id, 'value' => $property_brand_huawei->id]);
+        $replicate_product_huawei_pc->properties()->sync([$brandProperty->id]);
+        
+        
+        $xiaomi_pc = [
+            'name'=>'xiaomi-pc',
+            'price'=>rand(500, 1000) / 10,
+            'qty' => rand(50, 100),
+            'cost_price' => $price - (rand(50, 100) / 10),
+            'description' => $faker->text,
+            'slug' => 'laptop-xiaomi-pc',
+            'sku' => 'xiaomi-pc',
+            'barcode' => $faker->countryCode
+        ];
+        $replicate_product_xiaomi_pc = $product->replicate()->fill($xiaomi);
+        $replicate_product_xiaomi_pc->save();
+        
+        $replicate_product_xiaomi_pc->categories()->sync([$category_laptop->id]);
+        ProductImage::create(['path' => 'uploads/catalog/'. $replicate_product_xiaomi_pc->id .'/xiaomi-pc1.jpg', 'product_id' => $replicate_product_xiaomi_pc->id, 'is_main_image' => 1]);
+        $replicate_product_xiaomi_pc->productPropertyIntegerValues()->create(['property_id' => $brandProperty->id, 'value' => $property_brand_xiaomi->id]);
+        $replicate_product_xiaomi_pc->properties()->sync([$brandProperty->id]);
+        
+        
+        $product->categories()->sync([$category_mobile->id]);
         ProductImage::create(['path' => 'uploads/catalog/'. $product->id .'/p40.png', 'product_id' => $product->id, 'is_main_image' => 1]);
         $product->productPropertyIntegerValues()->create(['property_id' => $brandProperty->id, 'value' => $property_brand_huawei->id]);
-        $product->properties()->sync([$brandProperty->id, $brandProperty->id]);
+        $product->properties()->sync([$brandProperty->id]);
         
         //创建菜单组
         $mainMenu = MenuGroup::create(['name' => 'Main Menu', 'identifier' => 'main-menu', 'is_default' => 1]);
@@ -190,7 +231,7 @@ class CreateDemodata extends Migration
         $mainAuthMenu->menus()->create(['name' => $category_display->name, 'url' => '/category/' . $category_display->slug]);
         $mainAuthMenu->menus()->create(['name' => '购物车', 'url' => '/cart']);
         $mainAuthMenu->menus()->create(['name' => '结账', 'url' => '/checkout']);
-        $accountMenu = $mainAuthMenu->menus()->create(['name' => '帐号', 'url' => '/account']);
+        $accountMenu = $mainAuthMenu->menus()->create(['name' => '我的', 'url' => '/account']);
         $mainAuthMenu->menus()->create(['name' => '登出', 'url' => '/logout', 'parent_id' => $accountMenu->id]);
         
         Page::create(
