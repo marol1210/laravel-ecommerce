@@ -7,11 +7,14 @@ use AvoRed\Framework\Database\Models\Category;
 use AvoRed\Framework\Database\Models\Product;
 use AvoRed\Framework\Database\Models\ProductImage;
 use Faker\Factory;
+use AvoRed\Framework\Database\Models\Menu;
+use AvoRed\Framework\Database\Models\ProductPropertyIntegerValue;
 use AvoRed\Framework\Database\Models\Property;
 use AvoRed\Framework\Database\Models\Attribute;
 use AvoRed\Framework\Database\Models\CategoryFilter;
 use AvoRed\Framework\Database\Models\MenuGroup;
 use AvoRed\Framework\Database\Models\Page;
+use AvoRed\Framework\Database\Models\PropertyDropdownOption;
 
 
 class CreateDemodata extends Migration
@@ -33,94 +36,87 @@ class CreateDemodata extends Migration
             'name' => '笔记本',
             'slug' => 'laptop'
         ]);
-        
+        $category_display = Category::create([
+            'name' => '显示器',
+            'slug' => 'display'
+        ]);
         
         //商城商品自有属性
-        /*
         $colorAttribute = Attribute::create(
-            ['name' => 'Color',
-                'slug' => 'color',
-                'display_as' => 'IMAGE']
-            );
-        $redOption = $colorAttribute->dropdownOptions()->create(['display_text' => 'Red', 'path' => 'uploads/catalog/attributes/red-attribute.jpg']);
-        $blueOption = $colorAttribute->dropdownOptions()->create(['display_text' => 'Blue', 'path' => 'uploads/catalog/attributes/blue-attribute.png']);
-        $yellowOption = $colorAttribute->dropdownOptions()->create(['display_text' => 'Yellow', 'path' => 'uploads/catalog/attributes/yellow-attribute.png']);
-        */
+                [
+                    'name' => 'Color',
+                    'slug' => 'color',
+                    'display_as' => 'IMAGE'
+                ]
+        );
+        $attrbute_color_red = $colorAttribute->dropdownOptions()->create(['display_text' => 'Red', 'path' => 'uploads/catalog/attributes/red-attribute.jpg']);
+        $attrbute_color_blue = $colorAttribute->dropdownOptions()->create(['display_text' => 'Blue', 'path' => 'uploads/catalog/attributes/blue-attribute.png']);
+        $attrbute_color_yellow = $colorAttribute->dropdownOptions()->create(['display_text' => 'Yellow', 'path' => 'uploads/catalog/attributes/yellow-attribute.png']);
         
-        //商城商品通用属性
-        /*
+        /*商城商品通用属性*/
+        //品牌属性
         $brandProperty = Property::create(
-            ['name' => 'Brand',
-                'slug' => 'brand',
+                [
+                    'name' => '品牌',
+                    'slug' => 'brand',
+                    'data_type' => 'INTEGER',
+                    'field_type' => 'SELECT',
+                    'use_for_all_products' => 1,
+                    'use_for_category_filter' => 1,
+                    'is_visible_frontend' => 1,
+                    'sort_order' => 10
+                ]
+        );
+        $property_brand_huawei = $brandProperty->dropdownOptions()->create(['display_text' => '华为']);
+        $property_brand_xiaomi = $brandProperty->dropdownOptions()->create(['display_text' => '小米']);
+        
+        
+        //显示器
+        $displayBrandProperty = Property::create(
+            [
+                'name' => '显示器',
+                'slug' => 'brand-display',
                 'data_type' => 'INTEGER',
                 'field_type' => 'SELECT',
                 'use_for_all_products' => 1,
                 'use_for_category_filter' => 1,
                 'is_visible_frontend' => 1,
-                'sort_order' => 10]
-            );
-        $avoredOption = $brandProperty->dropdownOptions()->create(['display_text' => 'Avored']);
-        $phpOption = $brandProperty->dropdownOptions()->create(['display_text' => 'PHP']);
-        $laravelOption = $brandProperty->dropdownOptions()->create(['display_text' => 'Laravel']);
+                'sort_order' => 10
+            ]
+        );
+        $property_brand_jdf = $displayBrandProperty->dropdownOptions()->create(['display_text' => '京东方']);
         
         
-        $materialProperty = Property::create(
-            ['name' => 'Frame Material',
-                'slug' => 'frame-material',
-                'data_type' => 'INTEGER',
-                'field_type' => 'SELECT',
-                'use_for_all_products' => 1,
-                'use_for_category_filter' => 1,
-                'is_visible_frontend' => 1,
-                'sort_order' => 10]
-            );
-        $oakwoodOption = $materialProperty->dropdownOptions()->create(['display_text' => 'Oak wood']);
-        $whiteWoodOption = $materialProperty->dropdownOptions()->create(['display_text' => 'White wood framae']);
-        $aluminumFrameOption = $materialProperty->dropdownOptions()->create(['display_text' => 'Aluminium frame']);
-        */
-        
-        
-        //商品类型过滤——关联商城商品通用属性  （一个商品属于某商品类型，也可属于多个商品类型）
-        /*
+        //商品类型过滤——关联商城商品通用属性  （一个商品可属于1个或多个商品类型）
         CategoryFilter::create(
-            ['category_id' => $avoredCategory->id,
-                'filter_id' => $brandProperty->id,
-                'type' => 'PROPERTY']
-            );
+                [
+                    'category_id' => $category_mobile->id,
+                    'filter_id' => $brandProperty->id,
+                    'type' => 'PROPERTY'
+                ]
+        );
         CategoryFilter::create(
-            ['category_id' => $phpCategory->id,
-                'filter_id' => $brandProperty->id,
-                'type' => 'PROPERTY']
-            );
+                [
+                    'category_id' => $category_laptop->id,
+                    'filter_id' => $brandProperty->id,
+                    'type' => 'PROPERTY'
+                ]
+        );
         CategoryFilter::create(
-            ['category_id' => $laravelCategory->id,
-                'filter_id' => $brandProperty->id,
-                'type' => 'PROPERTY']
-            );
-        CategoryFilter::create(
-            ['category_id' => $avoredCategory->id,
-                'filter_id' => $materialProperty->id,
-                'type' => 'PROPERTY']
-            );
-        CategoryFilter::create(
-            ['category_id' => $phpCategory->id,
-                'filter_id' => $materialProperty->id,
-                'type' => 'PROPERTY']
-            );
-        CategoryFilter::create(
-            ['category_id' => $laravelCategory->id,
-                'filter_id' => $materialProperty->id,
-                'type' => 'PROPERTY']
-            );
-        */
+                [
+                    'category_id' => $category_display->id,
+                    'filter_id' => $displayBrandProperty->id,
+                    'type' => 'PROPERTY'
+                ]
+        );
         
         //创建商品
         $price = rand(500, 1000) / 10;
         $product = Product::create([
             'type' => 'BASIC',
-            'name' => 'AvoRed Sofa Set',
-            'slug' => 'avored-sofa-set',
-            'sku' => 'avored-sofa-set',
+            'name' => 'Huawei P40',
+            'slug' => 'mobile-huawei-p40',
+            'sku' => 'huawei-p40',
             'barcode' => '123456789',
             'description' => $faker->text,
             'status' => 1,
@@ -135,238 +131,67 @@ class CreateDemodata extends Migration
             'length' => rand(1, 10),
             'width' => rand(1, 10),
         ]);
-        $product->categories()->sync([$avoredCategory->id]);
-        ProductImage::create(['path' => 'uploads/catalog/'. $product->id .'/avored-sofa-set.jpg', 'product_id' => $product->id, 'is_main_image' => 1]);
-        $product->productPropertyIntegerValues()->create(['property_id' => $brandProperty->id, 'value' => $avoredOption->id]);
-        $product->productPropertyIntegerValues()->create(['property_id' => $materialProperty->id, 'value' => $aluminumFrameOption->id]);
-        $product->properties()->sync([$brandProperty->id, $materialProperty->id]);
         
-        $price = rand(500, 1000) / 10;
-        $product = Product::create([
-            'type' => 'BASIC',
-            'name' => 'AvoRed Single Bed',
-            'slug' => 'avored-single-bed',
-            'sku' => 'avored-single-bed',
-            'barcode' => '123456789',
-            'description' => $faker->text,
-            'status' => 1,
-            'in_stock' => 1,
-            'track_stock' => 1,
+
+        $xiaomi = [
+                'name'=>'Xiaomi 10', 
+                'price'=>rand(500, 1000) / 10,
+                'qty' => rand(50, 100), 
+                'cost_price' => $price - (rand(50, 100) / 10),
+                'description' => $faker->text, 
+                'slug' => 'mobile-xiaomik-10',
+                'sku' => 'xiaomik-10',
+                'barcode' => $faker->countryCode
+        ];
+        $replicate_product_xiaomi = $product->replicate()->fill($xiaomi);
+        $replicate_product_xiaomi->save();
+        ProductImage::create(['path' => 'uploads/catalog/'. $replicate_product_xiaomi->id .'/x-10.jpg', 'product_id' => $replicate_product_xiaomi->id, 'is_main_image' => 1]);
+        $replicate_product_xiaomi->productPropertyIntegerValues()->create(['property_id' => $brandProperty->id, 'value' => $property_brand_xiaomi->id]);
+        $replicate_product_xiaomi->properties()->sync([$brandProperty->id, $brandProperty->id]);
+       
+        
+        $jdf = [
+            'name'=>'京东方 27” 4K',
+            'price'=>rand(500, 1000) / 10,
             'qty' => rand(50, 100),
-            'is_taxable' => 1,
-            'price' => $price,
             'cost_price' => $price - (rand(50, 100) / 10),
-            'weight' => rand(1, 10),
-            'height' => rand(1, 10),
-            'length' => rand(1, 10),
-            'width' => rand(1, 10),
-        ]);
-        $product->categories()->sync([$avoredCategory->id]);
-        ProductImage::create(['path' => 'uploads/catalog/'. $product->id .'/avored-single-bed.jpg', 'product_id' => $product->id, 'is_main_image' => 1]);
-        $product->productPropertyIntegerValues()->create(['property_id' => $brandProperty->id, 'value' => $avoredOption->id]);
-        $product->productPropertyIntegerValues()->create(['property_id' => $materialProperty->id, 'value' => $whiteWoodOption->id]);
-        
-        
-        $price = rand(500, 1000) / 10;
-        $product = Product::create([
-            'type' => 'BASIC',
-            'name' => 'AvoRed Double Bed',
-            'slug' => 'avored-double-bed',
-            'sku' => 'avored-double-bed',
-            'barcode' => '123456789',
             'description' => $faker->text,
-            'status' => 1,
-            'in_stock' => 1,
-            'track_stock' => 1,
-            'qty' => rand(50, 100),
-            'is_taxable' => 1,
-            'price' => $price,
-            'cost_price' => $price - (rand(50, 100) / 10),
-            'weight' => rand(1, 10),
-            'height' => rand(1, 10),
-            'length' => rand(1, 10),
-            'width' => rand(1, 10),
-        ]);
-        $product->categories()->sync([$avoredCategory->id]);
-        ProductImage::create(['path' => 'uploads/catalog/'. $product->id .'/avored-double-bed.jpg', 'product_id' => $product->id, 'is_main_image' => 1]);
-        $product->productPropertyIntegerValues()->create(['property_id' => $brandProperty->id, 'value' => $avoredOption->id]);
-        $product->productPropertyIntegerValues()->create(['property_id' => $materialProperty->id, 'value' => $oakwoodOption->id]);
+            'slug' => 'display-jdf-27',
+            'sku' => 'jdf-27',
+            'barcode' => $faker->countryCode
+        ];
+        $replicate_product_jdf = $product->replicate()->fill($jdf);
+        $replicate_product_jdf->save();
+        ProductImage::create(['path' => 'uploads/catalog/'. $replicate_product_jdf->id .'/jdf.jpg', 'product_id' => $replicate_product_jdf->id, 'is_main_image' => 1]);
+        $replicate_product_xiaomi->productPropertyIntegerValues()->create(['property_id' => $displayBrandProperty->id, 'value' => $property_brand_jdf->id]);
+        $replicate_product_xiaomi->properties()->sync([$brandProperty->id, $displayBrandProperty->id]);
         
         
-        $price = rand(500, 1000) / 10;
-        $product = Product::create([
-            'type' => 'BASIC',
-            'name' => 'AvoRed Queen Bed',
-            'slug' => 'avored-queen-bed',
-            'sku' => 'avored-queen-bed',
-            'barcode' => '123456789',
-            'description' => $faker->text,
-            'status' => 1,
-            'in_stock' => 1,
-            'track_stock' => 1,
-            'qty' => rand(50, 100),
-            'is_taxable' => 1,
-            'price' => $price,
-            'cost_price' => $price - (rand(50, 100) / 10),
-            'weight' => rand(1, 10),
-            'height' => rand(1, 10),
-            'length' => rand(1, 10),
-            'width' => rand(1, 10),
-        ]);
-        $product->categories()->sync([$avoredCategory->id]);
-        ProductImage::create(['path' => 'uploads/catalog/'. $product->id .'/avored-queen-bed.jpg', 'product_id' => $product->id, 'is_main_image' => 1]);
-        $product->productPropertyIntegerValues()->create(['property_id' => $brandProperty->id, 'value' => $avoredOption->id]);
-        $product->productPropertyIntegerValues()->create(['property_id' => $materialProperty->id, 'value' => $oakwoodOption->id]);
         
+        ProductImage::create(['path' => 'uploads/catalog/'. $product->id .'/p40.png', 'product_id' => $product->id, 'is_main_image' => 1]);
+        $product->productPropertyIntegerValues()->create(['property_id' => $brandProperty->id, 'value' => $property_brand_huawei->id]);
+        $product->properties()->sync([$brandProperty->id, $brandProperty->id]);
         
-        $price = rand(500, 1000) / 10;
-        $product = Product::create([
-            'type' => 'BASIC',
-            'name' => 'AvoRed Bunk Bed',
-            'slug' => 'avored-bunk-bed',
-            'sku' => 'avored-bunk-bed',
-            'barcode' => '123456789',
-            'description' => $faker->text,
-            'status' => 1,
-            'in_stock' => 1,
-            'track_stock' => 1,
-            'qty' => rand(50, 100),
-            'is_taxable' => 1,
-            'price' => $price,
-            'cost_price' => $price - (rand(50, 100) / 10),
-            'weight' => rand(1, 10),
-            'height' => rand(1, 10),
-            'length' => rand(1, 10),
-            'width' => rand(1, 10),
-        ]);
-        $product->categories()->sync([$avoredCategory->id]);
-        ProductImage::create(['path' => 'uploads/catalog/'. $product->id .'/avored-bunk-bed.jpg', 'product_id' => $product->id, 'is_main_image' => 1]);
-        $product->productPropertyIntegerValues()->create(['property_id' => $brandProperty->id, 'value' => $avoredOption->id]);
-        $product->productPropertyIntegerValues()->create(['property_id' => $materialProperty->id, 'value' => $whiteWoodOption->id]);
-        
-        
-        $price = rand(500, 1000) / 10;
-        $product = Product::create([
-            'type' => 'BASIC',
-            'name' => 'PHP Sofa Set',
-            'slug' => 'php-sofa-set',
-            'sku' => 'php-sofa-set',
-            'barcode' => '123456789',
-            'description' => $faker->text,
-            'status' => 1,
-            'in_stock' => 1,
-            'track_stock' => 1,
-            'qty' => rand(50, 100),
-            'is_taxable' => 1,
-            'price' => $price,
-            'cost_price' => $price - (rand(50, 100) / 10),
-            'weight' => rand(1, 10),
-            'height' => rand(1, 10),
-            'length' => rand(1, 10),
-            'width' => rand(1, 10),
-        ]);
-        $product->categories()->sync([$phpCategory->id]);
-        ProductImage::create(['path' => 'uploads/catalog/'. $product->id .'/php-sofa-set.jpg', 'product_id' => $product->id, 'is_main_image' => 1]);
-        $product->productPropertyIntegerValues()->create(['property_id' => $brandProperty->id, 'value' => $phpOption->id]);
-        $product->productPropertyIntegerValues()->create(['property_id' => $materialProperty->id, 'value' => $whiteWoodOption->id]);
-        
-        
-        $price = rand(500, 1000) / 10;
-        $product = Product::create([
-            'type' => 'BASIC',
-            'name' => 'Laravel Sofa Set',
-            'slug' => 'laravel-sofa-set',
-            'sku' => 'laravel-sofa-set',
-            'barcode' => '123456789',
-            'description' => $faker->text,
-            'status' => 1,
-            'in_stock' => 1,
-            'track_stock' => 1,
-            'qty' => rand(50, 100),
-            'is_taxable' => 1,
-            'price' => $price,
-            'cost_price' => $price - (rand(50, 100) / 10),
-            'weight' => rand(1, 10),
-            'height' => rand(1, 10),
-            'length' => rand(1, 10),
-            'width' => rand(1, 10),
-        ]);
-        $product->categories()->sync([$laravelCategory->id]);
-        ProductImage::create(['path' => 'uploads/catalog/'. $product->id .'/laravel-sofa-set.jpg', 'product_id' => $product->id, 'is_main_image' => 1]);
-        $product->productPropertyIntegerValues()->create(['property_id' => $brandProperty->id, 'value' => $laravelOption->id]);
-        $product->productPropertyIntegerValues()->create(['property_id' => $materialProperty->id, 'value' => $oakwoodOption->id]);
-        
-        
-        $price = rand(500, 1000) / 10;
-        $product = Product::create([
-            'type' => 'BASIC',
-            'name' => 'PHP Single Mattress',
-            'slug' => 'php-single-mattress',
-            'sku' => 'php-sofa-set',
-            'barcode' => '123456789',
-            'description' => $faker->text,
-            'status' => 1,
-            'in_stock' => 1,
-            'track_stock' => 1,
-            'qty' => rand(50, 100),
-            'is_taxable' => 1,
-            'price' => $price,
-            'cost_price' => $price - (rand(50, 100) / 10),
-            'weight' => rand(1, 10),
-            'height' => rand(1, 10),
-            'length' => rand(1, 10),
-            'width' => rand(1, 10),
-        ]);
-        $product->categories()->sync([$phpCategory->id]);
-        ProductImage::create(['path' => 'uploads/catalog/'. $product->id .'/php-single-mattress.jpg', 'product_id' => $product->id, 'is_main_image' => 1]);
-        $product->productPropertyIntegerValues()->create(['property_id' => $brandProperty->id, 'value' => $phpOption->id]);
-        $product->productPropertyIntegerValues()->create(['property_id' => $materialProperty->id, 'value' => $oakwoodOption->id]);
-        
-        
-        $price = rand(500, 1000) / 10;
-        $product = Product::create([
-            'type' => 'BASIC',
-            'name' => 'Laravel Bedside Table',
-            'slug' => 'laravel-bedside-table',
-            'sku' => 'laravel-bedside-table',
-            'barcode' => '123456789',
-            'description' => $faker->text,
-            'status' => 1,
-            'in_stock' => 1,
-            'track_stock' => 1,
-            'qty' => rand(50, 100),
-            'is_taxable' => 1,
-            'price' => $price,
-            'cost_price' => $price - (rand(50, 100) / 10),
-            'weight' => rand(1, 10),
-            'height' => rand(1, 10),
-            'length' => rand(1, 10),
-            'width' => rand(1, 10),
-        ]);
-        $product->categories()->sync([$laravelCategory->id]);
-        ProductImage::create(['path' => 'uploads/catalog/'. $product->id .'/laravel-bedside-table.jpg', 'product_id' => $product->id, 'is_main_image' => 1]);
-        $product->productPropertyIntegerValues()->create(['property_id' => $brandProperty->id, 'value' => $laravelOption->id]);
-        $product->productPropertyIntegerValues()->create(['property_id' => $materialProperty->id, 'value' => $aluminumFrameOption->id]);
-        
+        //创建菜单组
         $mainMenu = MenuGroup::create(['name' => 'Main Menu', 'identifier' => 'main-menu', 'is_default' => 1]);
         
-        $mainMenu->menus()->create(['name' => $avoredCategory->name, 'url' => '/category/' . $avoredCategory->slug]);
-        $mainMenu->menus()->create(['name' => $phpCategory->name, 'url' => '/category/' . $phpCategory->slug]);
-        $mainMenu->menus()->create(['name' => $laravelCategory->name, 'url' => '/category/' . $laravelCategory->slug]);
-        $mainMenu->menus()->create(['name' => 'Cart', 'url' => '/cart']);
-        $mainMenu->menus()->create(['name' => 'Checkout', 'url' => '/checkout']);
-        $mainMenu->menus()->create(['name' => 'Login', 'url' => '/login']);
-        $mainMenu->menus()->create(['name' => 'Register', 'url' => '/register']);
+        $mainMenu->menus()->create(['name' => $category_mobile->name, 'url' => '/category/' . $category_mobile->slug]);
+        $mainMenu->menus()->create(['name' => $category_laptop->name, 'url' => '/category/' . $category_laptop->slug]);
+        $mainMenu->menus()->create(['name' => $category_display->name, 'url' => '/category/' . $category_display->slug]);
+        $mainMenu->menus()->create(['name' => '购物车', 'url' => '/cart']);
+        $mainMenu->menus()->create(['name' => '结账', 'url' => '/checkout']);
+        $mainMenu->menus()->create(['name' => '登录', 'url' => '/login']);
+        $mainMenu->menus()->create(['name' => '注册', 'url' => '/register-cn']);
         
         $mainAuthMenu = MenuGroup::create(['name' => 'Main Auth Menu', 'identifier' => 'main-auth-menu']);
         
-        $mainAuthMenu->menus()->create(['name' => $avoredCategory->name, 'url' => '/category/' . $avoredCategory->slug]);
-        $mainAuthMenu->menus()->create(['name' => $phpCategory->name, 'url' => '/category/' . $phpCategory->slug]);
-        $mainAuthMenu->menus()->create(['name' => $laravelCategory->name, 'url' => '/category/' . $laravelCategory->slug]);
-        $mainAuthMenu->menus()->create(['name' => 'Cart', 'url' => '/cart']);
-        $mainAuthMenu->menus()->create(['name' => 'Checkout', 'url' => '/checkout']);
-        $accountMenu = $mainAuthMenu->menus()->create(['name' => 'Account', 'url' => '/account']);
-        $mainAuthMenu->menus()->create(['name' => 'Logout', 'url' => '/logout', 'parent_id' => $accountMenu->id]);
+        $mainAuthMenu->menus()->create(['name' => $category_mobile->name, 'url' => '/category/' . $category_mobile->slug]);
+        $mainAuthMenu->menus()->create(['name' => $category_laptop->name, 'url' => '/category/' . $category_laptop->slug]);
+        $mainAuthMenu->menus()->create(['name' => $category_display->name, 'url' => '/category/' . $category_display->slug]);
+        $mainAuthMenu->menus()->create(['name' => '购物车', 'url' => '/cart']);
+        $mainAuthMenu->menus()->create(['name' => '结账', 'url' => '/checkout']);
+        $accountMenu = $mainAuthMenu->menus()->create(['name' => '帐号', 'url' => '/account']);
+        $mainAuthMenu->menus()->create(['name' => '登出', 'url' => '/logout', 'parent_id' => $accountMenu->id]);
         
         Page::create(
             ['name' => 'HomePage',
@@ -383,7 +208,34 @@ class CreateDemodata extends Migration
     public function down()
     {
         Schema::disableForeignKeyConstraints();
-        
+        Category::truncate();
+        MenuGroup::truncate();
+        Attribute::truncate();
+        Menu::truncate();
+        CategoryFilter::truncate();
+        Page::truncate();
+        ProductImage::truncate();
+        Property::truncate();
+        ProductPropertyIntegerValue::truncate();
+        PropertyDropdownOption::truncate();
+        Product::truncate();
         Schema::enableForeignKeyConstraints();
+    }
+    
+    
+    /**
+     * 完整过滤条件
+     */
+    protected function addCategory($category_id)
+    {
+        $property =  Property::all();
+        
+        foreach ($property as $p){
+             CategoryFilter::create(
+                 ['category_id' => $category_id,
+                     'filter_id' => $p->id,
+                 'type' => 'PROPERTY']
+             );
+        }
     }
 }

@@ -106,4 +106,8 @@
     z-index: 1;
     box-shadow: 0 2px 8px rgba(0,0,0,.15);
 }
+
+.ant-input-affix-wrapper .ant-input{
+    min-height: 0 !important;
+}
 </style>

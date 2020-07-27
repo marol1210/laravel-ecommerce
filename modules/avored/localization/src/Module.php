@@ -45,10 +45,13 @@ class Module extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'localization');
         //$this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         Route::middleware('web')->group(__DIR__ . '/../routes/web.php');
+        
+        /*
         Route::prefix('api')
                 ->middleware('api')
                 ->namespace('Avored\Localization\Http\Controllers')
                 ->group(__DIR__ . '/../routes/api.php');
+        */
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'localization');
     }
 }
