@@ -36,13 +36,24 @@
                             action="{{ route('register') }}"
                             @submit="handleSubmit">
                             @csrf()
-    			    		<a-form-item label="昵称" has-feedback>
+    			    		<a-form-item label="昵称" has-feedback
+    			    			@if(old('name'))
+    			    				validate-status="success"
+    			    			@endif
+    			    		>
     			    			<a-input 
     			    				name="name" 
-    			    				v-decorator="['name',{rules:[{required:true,message:'请填写昵称'}]}]" 
+    			    				v-decorator="['name',{rules:[{required:true,message:'请填写昵称'}],initialValue:'{{old('name')}}'}]" 
     			    				placeholder="昵称"/>
     			    		</a-form-item>
-    			    		<a-form-item label="邮箱">
+    			    		<a-form-item label="邮箱" has-feedback 
+    			    			@if($errors->has('email'))
+    			    				validate-status="error"
+    			    				@error('email')
+    			    					help="{{$message}}"
+    			    				@enderror
+    			    			@endif
+    			    		>
     			    			<a-input 
     			    				name="email"
     			    				v-decorator="['email',{rules:[{type:'email',message:'无效的邮箱地址'},{required:true,message:'请输入邮箱'}]}]"

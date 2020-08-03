@@ -29,9 +29,9 @@ return [
     'token' => 'This password reset token is invalid.',
     'user' => "We can't find a user with that e-mail address.",
 
-    'password' => 'Password',
+    'password' => '密码',
     'email' => '邮箱',
-    'login-card' => 'AvoRed E commerce Admin Login',
+    'login-card' => '管理后台',
     'login' => '登录',
     'forget-password' => 'Forgot your password?',
     'password-reset-btn' => 'Forgot your password?',
@@ -422,7 +422,7 @@ return [
     ],
 
     'breadcrumb' => [
-        'dashboard' => '仪表盘',
+        'dashboard' => '首页',
         'configuration' => 'Configuration',
         'category' => [
             'index' => '商品类别',
@@ -439,13 +439,13 @@ return [
             'create' => '创建商品',
         ],
         'order' => [
-            'index' => 'Order',
-            'show' => 'Show Order',
+            'index' => '订单',
+            'show' => '展示订单',
         ],
         'menu' => [
-            'index' => 'Menu',
-            'edit' => 'Edit Menu',
-            'create' => 'Create Menu',
+            'index' => '菜单',
+            'edit' => '编辑菜单',
+            'create' => '创建菜单',
         ],
         'tax-group' => [
             'index' => 'Tax Group',

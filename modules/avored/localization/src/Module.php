@@ -37,15 +37,17 @@ class Module extends ServiceProvider
      */
     protected function registerResources()
     {
-        /*
-        $this->publishes([
-            __DIR__.'/../resources/lang' => resource_path("lang/vendor/avored"),
-        ], 'localization');
-        */
+        $this->publishes(
+            [
+                __DIR__.'/../resources/vendor/lang' => resource_path("lang/vendor"),  //avored后台多语言配置文件
+                __DIR__.'/../resources/vendor/views' => resource_path("views/vendor"),  //avored后台页面重载
+                __DIR__.'/../resources/lang' => resource_path("lang")
+            ], 
+            'localization'
+        );
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'localization');
         //$this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         Route::middleware('web')->group(__DIR__ . '/../routes/web.php');
-        
         /*
         Route::prefix('api')
                 ->middleware('api')

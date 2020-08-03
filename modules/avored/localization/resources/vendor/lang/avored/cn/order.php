@@ -29,7 +29,7 @@ return [
     ],
     'order' => [
         'index' => [
-            'title' => 'Order',
+            'title' => '订单',
             'action' => 'Action',
             'download_invoice' => 'Download Invoice',
             'change_status' => 'Change Status',

@@ -19,7 +19,6 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @stack('styles')
-    <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
     <div id="app">

@@ -1,10 +1,8 @@
 <?php
-
-use Illuminate\Support\Facades\Auth;
-
-Route::get('/register-cn',[\AvoRed\Localization\Http\Controllers\RegisterController::class,'showRegistrationForm'])->name('marol.register.cn');
-
-
-Route::get('/abc',function(){
-    return (new \Illuminate\Auth\Notifications\VerifyEmail())->toMail(Auth::user());
+Route::prefix('cn')
+->namespace('\AvoRed\Localization\Http\Controllers')
+->group(function () {
+    Route::get('/register','RegisterController@showRegistrationForm')->name('cn.register');
+    Route::view('/login','localization::auth.login');
 });
+
