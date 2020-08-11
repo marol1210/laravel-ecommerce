@@ -11,8 +11,17 @@
 |
 */
 
+<<<<<<< HEAD
 Auth::routes(['verify'=>true]);
 
+=======
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
+// Route::get('/{any}', [SpaController::class, 'index'])->where('any', '.*');
+
+Auth::routes();
+>>>>>>> refs/tags/3.0.8
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
