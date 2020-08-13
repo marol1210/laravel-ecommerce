@@ -50,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->setLocale('cn');
         //end customer composer
         
-        View::composer(['partials.nav','partials.nav-left'], NavComposer::class);
+        View::composer(['partials.nav'], NavComposer::class);
         Menu::make('login', function (MenuItem $menu) {
             $menu->label('Login')
                 ->type(MenuItem::FRONT)

@@ -1,28 +1,6 @@
 @php
 $product->main_image_url = empty($product->mainImage) ? 'https://placehold.it/250x250' : asset('storage/'.$product->mainImage->path);
 @endphp
-<<<<<<< HEAD
-
-<product-card 
-    :product="{{ $product }}"
-    add-to-cart-url="{{ route('add.to.cart') }}"
-    add-to-wishlist="{{ route('wishlist.store') }}"
-    :user-wishlists="{{ $wishlists }}"
-    remove-from-wishlist="{{ route('wishlist.destroy') }}"
-    product-page-url="{{ route('product.show', $product->slug) }}"
-    currency="{{ session()->get('default_currency')->symbol }}">
-</product-card>
-
-@push('styles')
-<style>
-.product-card .main-image
-{
-    object-fit: contain !important;
-    object-fit: contain;
-}
-</style>
-@endpush
-=======
 <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
   <div class="max-w-xs bg-white border shadow-lg rounded-lg overflow-hidden ml-3 my-10">
     <a href="{{ route('product.show', $product->slug) }}" title="{{ $product->name }}">
@@ -45,4 +23,3 @@ $product->main_image_url = empty($product->mainImage) ? 'https://placehold.it/25
     </div>
   </div>
 </div>
->>>>>>> refs/tags/3.0.8
