@@ -3,12 +3,20 @@ namespace Avored\Localization;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
-use AvoRed\Framework\Support\Facades\Breadcrumb as BreadcrumbFacade;
-use AvoRed\Framework\Breadcrumb\Breadcrumb;
+use Illuminate\Support\Facades\App;
+
 
 class Module extends ServiceProvider
 {
 
+    /**
+     * Providers List for the Framework.
+     * @var array
+     */
+    protected $providers = [
+        \AvoRed\Localization\Providers\WechatProvider::class,
+    ];
+    
     /**
      * Bootstrap any application services.
      *
@@ -27,6 +35,18 @@ class Module extends ServiceProvider
      */
     public function register()
     {
+        $this->registerProviders();
+    }
+    
+    /**
+     * Registering AvoRed E commerce Service Provider.
+     * @return void
+     */
+    protected function registerProviders()
+    {
+        foreach ($this->providers as $provider) {
+            App::register($provider);
+        }
     }
 
     /**
