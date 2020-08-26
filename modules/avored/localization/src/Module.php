@@ -26,6 +26,12 @@ class Module extends ServiceProvider
     {
         $this->registerResources();
         
+        
+        $authConfig = $this->app['config']->get('auth', []);
+        $this->app['config']->set(
+            'auth.providers',
+            array_merge($authConfig['providers'], $this->app['config']['avored']['auth']['providers'])
+        );
     }
 
     /**

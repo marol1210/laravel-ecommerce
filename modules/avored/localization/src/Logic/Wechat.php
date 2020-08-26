@@ -205,7 +205,7 @@ eot;
             $open_platform_auth_call_back = 'http://xn--xkrp7r.cn/ecstore/index.php/openAuth';
             $open_platform_url = $open_platform->getMobilePreAuthorizationUrl($open_platform_auth_call_back,['pre_auth_code'=>$code[1]]);
             redirect()->away($open_platform_url);
-            sleep(2);
+            sleep(1);
             $app = $open_platform->officialAccount('wx570bc396a51b8ff8');
             $text = "{$code[1]}_from_api";
             $app->customer_service->message($text)->to($message['FromUserName'])->send();

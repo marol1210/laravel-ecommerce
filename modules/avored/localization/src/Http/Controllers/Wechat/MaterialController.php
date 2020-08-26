@@ -35,7 +35,10 @@ class MaterialController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate_data = $request->validate(['title'=>['required'],'content'=>['required'],'type'=>['required']], $request->post());
+        $validate_data['content'] = json_encode($validate_data);
+        $validate_data['create_user_id'] = auth()->id();
+        return  \App\Material::create($validate_data) ? 1 : 0;
     }
 
     /**
