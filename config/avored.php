@@ -51,7 +51,8 @@ return [
         'providers' => [
             'admin-users' => [
                 'driver' => 'eloquent',
-                'model' => AvoRed\Framework\Database\Models\AdminUser::class,
+                //'model' => AvoRed\Framework\Database\Models\AdminUser::class,
+                'model' => AvoRed\Localization\Models\AdminUser::class,
             ],
         ],
 

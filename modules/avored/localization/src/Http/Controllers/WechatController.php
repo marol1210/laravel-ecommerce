@@ -3,6 +3,7 @@ namespace AvoRed\Localization\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WechatController extends Controller
 {
@@ -16,6 +17,18 @@ class WechatController extends Controller
     {
         //$this->middleware('guest');
     }
+    
+    /**
+     * 已接入开放平台列表
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function index()
+    {
+        $user = Auth::guard('admin')->user();
+        $wechat = $user->wechats;
+        return view('avored::system.wechat.index',compact('wechat'));
+    }
+
     /**
      * 微信「公众号 & 开放平台」接入callback_url
      * @param Request $request
