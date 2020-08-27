@@ -1,10 +1,14 @@
 <?php
-
-namespace App;
+namespace AvoRed\Localization\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Material extends Model
+/**
+ * 微信素材资源
+ * @author mma
+ *
+ */
+class WechatMaterial extends Model
 {
     protected $table="wechat_materials";
     

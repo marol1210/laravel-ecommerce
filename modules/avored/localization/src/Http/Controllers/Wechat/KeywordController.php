@@ -13,7 +13,15 @@ class KeywordController extends Controller
      */
     public function index()
     {
-        return view("localization::wechat.keyword");
+        $rs = \AvoRed\Localization\Models\WechatKeyword::where('status','enable')->get();
+        $list = [];
+        foreach($rs as $r){
+            if(!isset($list[$r['uuid']])){
+                $list[$r['uuid']] = [];
+            }
+            array_push($list[$r['uuid']] , $r);
+        }
+        return view("localization::wechat.keyword",['list'=>$list]);
     }
 
     /**
@@ -35,28 +43,8 @@ class KeywordController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate(['keywords'=>['required'],'message'=>['required'],'type'=>['required']], $request->post());
-        $key_name = $validatedData['type'].'.'.auth()->id();
-        
-        $cache_data = collect([]);
-        $history = cache($key_name);
-        if(!empty($history)){
-            /*
-            $keywords = $validatedData['keywords'];
-            $history->filter(function ($value, $key) use($keywords) {
-                foreach($keywords as $kw){
-                    //存在重复
-                    if(in_array($kw,$value)){
-                        return false;
-                    }
-                }
-            });
-            */
-            $cache_data = $history->concat([$validatedData]);
-        }else{
-            $cache_data = collect([$validatedData]);
-        }
-        cache([$key_name=>$cache_data]);
-        return '';
+        $keyword = new \AvoRed\Localization\Logic\Keyword();
+        return ($rs = $keyword->createDb($validatedData))=== true ? ['errcode'=>0 , 'errmsg'=>'ok'] : ['errcode'=>-1 , 'errmsg'=>$rs->getMessage()];
     }
 
     /**
@@ -78,7 +66,11 @@ class KeywordController extends Controller
      */
     public function edit($id)
     {
-        //
+        if(empty($id)){
+            
+        }else{
+            
+        }
     }
 
     /**
