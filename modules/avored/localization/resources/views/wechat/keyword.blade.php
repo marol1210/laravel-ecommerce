@@ -22,7 +22,6 @@
         <sys_tab></sys_tab>
 	</el-col>
 </el-row>
-
 @endsection
 
 @push('scripts')
@@ -118,7 +117,7 @@
             	  <div slot="header" class="clearfix" style="font-size: larger;font-weight: bold;">
                     <span>{{__('现有关键字')}}</span>
                   </div>
-                  
+                <!-- 
                 <el-collapse>
         			@foreach($cache as $k=>$c)
                       <el-collapse-item  name="{{$k}}">
@@ -130,6 +129,19 @@
                         <div>{{$c['message']}}</div>
                       </el-collapse-item>
         			@endforeach
+                </el-collapse>
+                 -->
+                 <el-collapse>
+            		@foreach($list as $k=>$c)
+                      <el-collapse-item  name="{{$k}}">
+                      	<template slot="title">
+            			@foreach($c as $_c)
+            			<el-tag>{{$_c->name}}</el-tag>
+                      	@endforeach
+                        </template>
+                        <div>{{$_c->contents->content}}</div>
+                      </el-collapse-item>
+            		@endforeach
                 </el-collapse>
                 </el-card>
         	</el-col>

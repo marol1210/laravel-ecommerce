@@ -42,7 +42,7 @@
                   
                 <el-collapse>
                 	@php
-                		$list = \App\Material::where('create_user_id',auth()->id())->get()->toArray();
+                		$list = \AvoRed\Localization\Models\WechatMaterial::where('create_user_id',auth()->id())->get()->toArray();
                 	@endphp
         			@foreach($list as $k=>$c)
                       <el-collapse-item  name="{{$k}}" title="{{$c['title']}}">

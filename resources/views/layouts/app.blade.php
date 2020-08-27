@@ -23,6 +23,9 @@
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @endif
     {{-- <script src="https://js.stripe.com/v3/"></script> --}}
+    <!-- 引入样式 -->
+	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    @stack('css')
 </head>
 <body>
     <div id="app">
@@ -58,6 +61,8 @@
     
     @stack('scripts')
     
+        <!-- 引入组件库 -->
+	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
     @if(file_exists(public_path('mix-manifest.json')))
         <script src="{{ mix('js/app.js') }}"></script>
     @else

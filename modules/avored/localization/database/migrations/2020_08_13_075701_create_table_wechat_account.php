@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Query\Expression;
 
-class WechatAccount extends Migration
+class CreateTableWechatAccount extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class WechatAccount extends Migration
      */
     public function up()
     {
-        Schema::create('wechat_account', function (Blueprint $table) {
+        Schema::create('wechat_accounts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('authorizer_appid',45)->comment('授权方 appid');
             $table->string('authorizer_access_token',255)->comment('接口调用令牌（在授权的公众号/小程序具备 API 权限时，才有此返回值）');

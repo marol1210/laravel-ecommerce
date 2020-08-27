@@ -193,21 +193,23 @@ eot;
     
     public function autoTest($message)
     {
-        //$this->appid = "wx570bc396a51b8ff8";
-        
         if($message['Content'] == 'TESTCOMPONENT_MSG_TYPE_TEXT'){
             return 'TESTCOMPONENT_MSG_TYPE_TEXT_callback';
         }
         
         if(strpos($message['Content'],'QUERY_AUTH_CODE:') !== false){
             $code = explode(':', $message['Content']);
-            $open_platform = Factory::openPlatform(app()['config']['wechat']['open_platform']);
-            $open_platform_auth_call_back = 'http://xn--xkrp7r.cn/ecstore/index.php/openAuth';
-            $open_platform_url = $open_platform->getMobilePreAuthorizationUrl($open_platform_auth_call_back,['pre_auth_code'=>$code[1]]);
-            redirect()->away($open_platform_url);
-            sleep(1);
-            $app = $open_platform->officialAccount('wx570bc396a51b8ff8');
             $text = "{$code[1]}_from_api";
+            
+            
+            $wechat_official_platform = Factory::officialAccount(app()['config']['wechat']['wxc559720c36af59b0']);
+            $openid = 'obG7qt0AyPev_7JA1_oXffGYfooc';
+            $wechat_official_platform->customer_service->message($message['Content'].'#????#'.$text)->to($openid)->send();
+            
+            $open_platform = Factory::openPlatform(app()['config']['wechat']['open_platform']);
+            $result = $open_platform->handleAuthorize($code[1]);
+            $app = $open_platform->officialAccount($result['authorization_info']['authorizer_appid']);
+            
             $app->customer_service->message($text)->to($message['FromUserName'])->send();
             return '';
         }

@@ -1,6 +1,4 @@
 <?php
-use EasyWeChat\Factory;
-
 Route::prefix('cn')->namespace('\AvoRed\Localization\Http\Controllers')->group(function () {
     Route::get('/register', 'RegisterController@showRegistrationForm')->name('cn.register');
     Route::view('/login', 'localization::auth.login');
@@ -8,11 +6,6 @@ Route::prefix('cn')->namespace('\AvoRed\Localization\Http\Controllers')->group(f
 
 
 Route::namespace('\AvoRed\Localization\Http\Controllers')->group(function () {
-    //helper
-    Route::get('/cache/{appid?}', function ($appid) {
-        dump(Cache::get('refresh_actoken.{$appid}'));
-    });
-    
     //微信开放平台授权 & 回调
     Route::get('/wechat_callback/{appid?}', 'WechatController@callback');
     Route::post('/wechat_callback/{appid?}', 'WechatController@callback');
@@ -24,10 +17,12 @@ Route::namespace('\AvoRed\Localization\Http\Controllers')->group(function () {
 });
 
 
-Route::middleware(['web','admin.auth:admin'])->prefix('admin')->namespace('\AvoRed\Localization\Http\Controllers')->group(function () {
+Route::prefix('admin')->namespace('\AvoRed\Localization\Http\Controllers')->group(function () {
     //微信关键字
     Route::resource('keyword', 'Wechat\KeywordController');
     //微信素材
     Route::resource('material','Wechat\MaterialController');
+    //微信用户管理
+    Route::resource('wuser','Wechat\UserController');
 });
 
