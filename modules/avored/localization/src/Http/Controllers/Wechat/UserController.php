@@ -1,10 +1,16 @@
 <?php
+
 namespace AvoRed\Localization\Http\Controllers\Wechat;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class KeywordController extends Controller
+/**
+ * 微信用户管理
+ * @author mma
+ *
+ */
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,11 +19,7 @@ class KeywordController extends Controller
      */
     public function index()
     {
-        $list = \AvoRed\Localization\Models\WechatKeywordContent::with('keywords')->get();
-        $list = $list->toArray();
-        $errmsg = 'ok';
-        $errcode = 0;
-        return compact('list','errmsg', 'errcode');
+        return view("localization::wechat.user");
     }
 
     /**
@@ -38,9 +40,7 @@ class KeywordController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate(['keywords'=>['required'],'message'=>['required'],'type'=>['required']], $request->post());
-        $keyword = new \AvoRed\Localization\Logic\Keyword();
-        return ($rs = $keyword->createDb($validatedData))=== true ? ['errcode'=>0 , 'errmsg'=>'ok'] : ['errcode'=>-1 , 'errmsg'=>$rs->getMessage()];
+       
     }
 
     /**
@@ -62,7 +62,7 @@ class KeywordController extends Controller
      */
     public function edit($id)
     {
-       
+        //
     }
 
     /**
@@ -74,10 +74,7 @@ class KeywordController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate(['keywords'=>['required'],'message'=>['required'],'type'=>['required']], $request->post());
-        $validatedData['id'] = $id;
-        $keyword = new \AvoRed\Localization\Logic\Keyword();
-        return ($rs = $keyword->update($validatedData))=== true ? ['errcode'=>0 , 'errmsg'=>'ok'] : ['errcode'=>-1 , 'errmsg'=>$rs->getMessage()];
+        //
     }
 
     /**
@@ -88,7 +85,6 @@ class KeywordController extends Controller
      */
     public function destroy($id)
     {
-        $keyword = new \AvoRed\Localization\Logic\Keyword();
-        return ($rs = $keyword->deleteDb($id))=== true ? ['errcode'=>0 , 'errmsg'=>'ok'] : ['errcode'=>-1 , 'errmsg'=>$rs->getMessage()];
+        //
     }
 }

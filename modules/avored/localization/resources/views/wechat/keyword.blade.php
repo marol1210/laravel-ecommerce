@@ -47,6 +47,7 @@
                           v-model="inputValue"
                           ref="saveTagInput"
                           size="small"
+                          class="custom"
                           @keyup.enter.native="handleInputConfirm"
                           @blur="handleInputConfirm"
                         >

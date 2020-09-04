@@ -53,4 +53,49 @@ class Keyword
         }
         return true;
     }
+    
+    public function deleteCache($id)
+    {
+        
+    }
+    
+    /**
+     * 删除关键字
+     * @param integer $id 关键字ID
+     * @return \Exception|boolean
+     */
+    public function deleteDb($id)
+    {
+        try {
+            DB::beginTransaction();
+            \AvoRed\Localization\Models\WechatKeyword::where('uuid', $id)->delete();
+            \AvoRed\Localization\Models\WechatKeywordContent::where('keyword_id', $id)->delete();
+            DB::commit();
+        }catch(\Exception $e){
+            DB::rollBack();
+            return $e;
+        }
+        return true;
+    }
+    
+    public function update($validatedData)
+    {
+        try {
+            $current_user_id = auth()->id();
+            $current_user_id = 1;
+            DB::beginTransaction();
+            \AvoRed\Localization\Models\WechatKeyword::where('uuid', $validatedData['id'])->delete();
+            
+            foreach($validatedData['keywords'] as $kw){
+                \AvoRed\Localization\Models\WechatKeyword::insert(['uuid'=>$validatedData['id'] , 'create_user_id'=>$current_user_id , 'name'=>$kw , 'created_at'=> $current_date ]);
+            }
+            
+            \AvoRed\Localization\Models\WechatKeywordContent::where('keyword_id', $validatedData['id'])->update(['content'=>$validatedData['message']]);
+            DB::commit();
+        }catch(\Exception $e){
+            DB::rollBack();
+            return $e;
+        }
+        return true;
+    }
 }

@@ -13,4 +13,10 @@ class WechatKeywordContent extends Model
      * @var array
      */
     protected $guarded = [];
+    
+    //
+    public function keywords()
+    {
+        return $this->hasMany(\AvoRed\Localization\Models\WechatKeyword::class,'uuid','keyword_id');
+    }
 }

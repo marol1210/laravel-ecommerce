@@ -26,3 +26,9 @@ Route::prefix('admin')->namespace('\AvoRed\Localization\Http\Controllers')->grou
     Route::resource('wuser','Wechat\UserController');
 });
 
+
+
+    
+Route::prefix('vue-admin')->namespace('\AvoRed\Localization\Http\Controllers')->group(function(){
+    Route::view("", "localization::layouts.base");
+});
