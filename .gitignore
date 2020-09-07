@@ -6,6 +6,7 @@
 /modules/avored/stripe
 /modules/avored/pos
 .env
+.env.dusk.local
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
@@ -20,3 +21,4 @@ docker-compose.yml
 /Docker
 docker-command.md
 public/avored-admin
+public/mix-manifest.json

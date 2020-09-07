@@ -10,9 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Auth::routes(['verify'=>true]);
 
+use App\Http\Controllers\Account\OrderCommentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +27,7 @@ Route::get('category/{category}', 'CategoryController@show')->name('category.sho
 Route::get('product/{product}', 'ProductController@show')->name('product.show');
 
 Route::get('cart', 'CartController@show')->name('cart.show');
+Route::post('apply-promotion-code/{code}', 'CartController@applyPromotionCode')->name('promotion-code.apply');
 Route::post('add-to-cart', 'CartController@addToCart')->name('add.to.cart');
 Route::delete('destroy-cart', 'CartController@destroy')->name('cart.destroy');
 Route::put('update-cart', 'CartController@update')->name('cart.update');
@@ -48,4 +49,5 @@ Route::middleware('auth:customer')
         Route::post('upload-image', UploadImageController::class)->name('upload.image');
         Route::resource('address', 'AddressController');
         Route::resource('order', 'OrderController')->only(['index', 'show']);
+        Route::resource('order/{order}/order-comment', 'OrderCommentController');
     });
