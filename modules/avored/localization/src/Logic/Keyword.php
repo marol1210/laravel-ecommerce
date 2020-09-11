@@ -84,10 +84,17 @@ class Keyword
             $current_user_id = auth()->id();
             $current_user_id = 1;
             DB::beginTransaction();
+            $keyword = \AvoRed\Localization\Models\WechatKeyword::where('uuid', $validatedData['id']);
+            $created_at = $keyword->first()->created_at;
             \AvoRed\Localization\Models\WechatKeyword::where('uuid', $validatedData['id'])->delete();
             
             foreach($validatedData['keywords'] as $kw){
-                \AvoRed\Localization\Models\WechatKeyword::insert(['uuid'=>$validatedData['id'] , 'create_user_id'=>$current_user_id , 'name'=>$kw , 'created_at'=> $current_date ]);
+                $ar = new \AvoRed\Localization\Models\WechatKeyword;
+                $ar->uuid = $validatedData['id'];
+                $ar->created_at = $created_at;
+                $ar->create_user_id = $current_user_id;
+                $ar->name = $kw;
+                $ar->save();
             }
             
             \AvoRed\Localization\Models\WechatKeywordContent::where('keyword_id', $validatedData['id'])->update(['content'=>$validatedData['message']]);

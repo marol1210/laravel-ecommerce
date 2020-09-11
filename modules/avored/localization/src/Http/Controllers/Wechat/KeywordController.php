@@ -11,13 +11,13 @@ class KeywordController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $list = \AvoRed\Localization\Models\WechatKeywordContent::with('keywords')->get();
-        $list = $list->toArray();
+        $pageSize = $request->query('pageSize',25);
+        $data = \AvoRed\Localization\Models\WechatKeywordContent::with('keywords')->paginate($pageSize);
         $errmsg = 'ok';
         $errcode = 0;
-        return compact('list','errmsg', 'errcode');
+        return compact('data','errmsg', 'errcode');
     }
 
     /**
